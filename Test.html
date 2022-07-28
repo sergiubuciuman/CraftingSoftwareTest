@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+    <p>
+      Hello Crafting Software
+    </p>
+    <p>
+      For the words = ["quick", "brown", "the","fox"];<br>
+      and the text = "thequickbrownfox" solution is: 
+    </p>
+    <p id="displaySolutionFirstText"></p> 
+    <p>
+      For the words = ["bed", "bath", "bedbath","and", "beyond"];<br>
+      and the text = "bedbathandbeyond" solution is:
+    </p>
+
+    <p id= "displaySolutionSecondText"></p>
+
+    <p>
+      For the words = ["bedroom", "bath", "bedbath","and", "beyond"];<br>
+      and the text = "bedbathandbeyond" solution is:
+    </p>
+
+    <p id= "displaySolutionThirdText"></p>
+
+    <script>
+      const words1 = ["quick","brown","the","fox"];
+      const text1 ="thequickbrownfox";
+      const words2 = ["bed", "bath", "bedbath","and", "beyond"];
+      const text2 = "bedbathandbeyond";
+      const words3 = ["bedroom", "bath", "bedbath","and", "beyond"];
+      const text3 = "bedbathandbeyond";
+      //var i = 0;
+      
+
+      //In this function I search the position where we find the words in the string and after
+      //I save in newwords variable with the position and value of the word.
+      function validation (text, words){
+        var valid = true;
+        for (let i = 0; i < words.length; i++) {
+          //
+          if (text.indexOf(words[i]) == -1) {
+            valid = false;
+          }
+
+        }
+        return valid;
+      }
+      
+
+      function search(text, words) {
+        var newwords = [];
+        for (var i = 0; i < words.length; i++) {
+          //
+          if (text.indexOf(words[i]) > -1) {
+            newwords[i] = { position: text.indexOf(words[i]), value: words[i] };
+          }
+        }
+        return newwords;
+      }
+      //var a = search();
+      /*for (let j = 0; j < words.length; j++) {
+        console.log(a[j].position + " " + a[j].value);
+      }*/
+
+      //a.sort();
+
+     /* for (let j = 0; j < words.length; j++) {
+        console.log(a[j].position + " " + a[j].value + " " + a.length);
+      }*/
+      //I use bubble sort function to sort newwords array by the position.
+      function bblSort(arr) {
+        for (var i = 0; i < arr.length; i++) {
+          // Last i elements are already in place
+          for (var j = 0; j < arr.length - i - 1; j++) {
+            // Checking if the item at present iteration
+            // is greater than the next iteration
+            if (arr[j].position > arr[j + 1].position) {
+              // If the condition is true then swap them
+              var temp = arr[j];
+              arr[j] = arr[j + 1];
+              arr[j + 1] = temp;
+            }
+          }
+        }
+        // Print the sorted array
+        //console.log(a);
+        return arr;
+      }
+
+      //I need to check if two elements are on the same position
+      //I check what element has the biggest length
+      //I draw the element and I compare it with the others elements
+      //If I find in the others elements one word witch is the same with the other half of the word  than I delete the longest word.
+      function checkCompundWords(sortetArray) {
+        let elementToCheck = "",elementToVerify ="",
+          elementToFind = "";
+        let k = 0;
+        for (let i = 0; i < sortetArray.length - 1; i++) {
+          if (sortetArray[i].position == sortetArray[i + 1].position) {
+            //console.log("Doua asemanatoare");
+            if (sortetArray[i].value.length < sortetArray[i + 1].value.length) {
+              elementToCheck = sortetArray[i + 1].value;
+              elementToVerify = sortetArray [i].value;
+              //console.log("Element to check "+elementToCheck +"Element to verify by element "+elementToVerify);
+            } else {
+              elementToCheck = sortetArray[i].value;
+              elementToVerify = sortetArray [i+1].value;
+              //console.log("Element to check "+elementToCheck +"Element to verify by element "+elementToVerify);
+            }
+            while (k < sortetArray.length) {
+              if (elementToCheck.indexOf(sortetArray[k].value, elementToVerify.length) > 0) {
+                //return sortetArray[k].value;
+                elementToFind = elementToCheck;//sortetArray[k].value;
+                //console.log("Value found is " + elementToFind);
+              }
+              k++;
+            }
+
+          }
+        }
+        return elementToFind; 
+      }
+
+      function display (element,sortetArray){
+      var sortetArrayFinal = [];
+      var j = 0,k =0;
+      while (j < sortetArray.length) {
+        if (element != sortetArray[j].value){
+          
+        sortetArrayFinal[k] = sortetArray[j].value;
+        console.log(sortetArray[j].position + " " + sortetArray[j].value);
+        j++;
+        k++;
+        }else{
+          j++;
+        }  
+      }
+      
+      //console.log(sortetArrayFinal);
+      return sortetArrayFinal;
+    }
+      
+      function main (){
+        
+        var valid1 = validation (text1,words1);
+        var valid2 = validation (text2, words2);
+        var valid3
+        var emptyArray1 = [];
+        var emptyArray = [];
+        //console.log(valid); 
+        if(valid1){
+          var a = search (text1,words1);
+          var sortetArray1 = bblSort(a);
+          var element1 = checkCompundWords(sortetArray1);
+          emptyArray1 = display(element1,sortetArray1);
+          console.log("valid1"+valid1);
+          document.getElementById("displaySolutionFirstText").innerHTML = emptyArray1.toString();
+        }else{
+          document.getElementById("displaySolutionFirstText").innerHTML = emptyArray1.toString();
+        }
+        if (valid2 ){
+          var b = search(text2,words2);
+          var sortetArray2 = bblSort(b);
+          var element2 = checkCompundWords(sortetArray2);
+          emptyArray2 = display(element2,sortetArray2);
+          console.log(emptyArray2);
+          document.getElementById("displaySolutionSecondText").innerHTML = emptyArray2.toString();
+        }else{
+          document.getElementById("displaySolutionFirstText").innerHTML = emptyArray2.toString();  
+        }
+        if (valid3 ){
+          var c = search(text3,words3);
+          var sortetArray3 = bblSort(c);
+          var element3 = checkCompundWords(sortetArray3);
+          emptyArray3 = display(element,sortetArray3);
+          console.log(emptyArray3);
+          document.getElementById("displaySolutionSecondText").innerHTML = emptyArray3.toString();
+        }else{
+          document.getElementById("displaySolutionFirstText").innerHTML = emptyArray3.toString();  
+        }
+      
+      }
+
+      main();
+    </script>
+  </body>
+</html>
